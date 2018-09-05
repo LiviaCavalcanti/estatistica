@@ -21,3 +21,6 @@ hist(v)
 # QUESTÂO 3
 bin_dist = rbinom(1000, 10,  0.2)
 hist(rbinom(1000, 10,  0.2))
+
+# QUESTÃO 4
+rnorm(1000)^2 + rnorm(1000)^2 + rnorm(1000)^2

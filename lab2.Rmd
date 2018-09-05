@@ -1,0 +1,42 @@
+---
+title: "Estatítica Aplicada: Laboratório 2"
+author: "Lívia Cavalcanti"
+date: "5 de setembro de 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Atividade 2
+
+#### Questão 1
+Use o método congruencial para gerar 10000 números pseudo aleatórios uniforme (0, 1). Considere os seguintes parâmetros: M = 5000, a = 1 e c = 5. Construa o histograma para esses números gerados e verifique se a forma do gráfico é coerente com o modelo uniforme em questão.
+
+```{r}
+M = 5000
+a = 1
+c = 5
+X_i = 1
+vetor = c(X_i)
+
+for(d in 2:10000) {
+
+  X_i = (a * X_i + c)  %% M
+  vetor = c(vetor, X_i)
+}
+vetor = vetor/M
+hist(vetor)
+```
+
+#### Questão 2
+
+You can also embed plots, for example:
+
+```{r}
+v = -(log(1 - vetor)) / 2
+hist(v)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
