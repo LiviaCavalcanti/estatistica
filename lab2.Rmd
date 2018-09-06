@@ -32,11 +32,34 @@ hist(vetor)
 
 #### Questão 2
 
-You can also embed plots, for example:
+Use os números pseudo aleatórios gerados anteriormente para gerar dados de uma exponencial, cuja F.d.a. é dada por:
+
+F(t) = 1 − e^(−2t) , t > 0.
+
+Construa o histograma associado a esses dados.
+
 
 ```{r}
 v = -(log(1 - vetor)) / 2
 hist(v)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+#### Questão 3
+
+Usando os geradores do software R, gere 1000 valores de uma distribuição binomial com n = 10  ep = 0, 2. Construa o histograma associado a esses dados.
+```{r}
+bin_dist = rbinom(1000, 10,  0.2)
+hist(rbinom(1000, 10,  0.2))
+```
+
+#### Questão 4
+
+Para simular um valor de uma v.a. com distribui ̧c ̃ao qui-quadrado, com n graus de liberdade, basta gerar n valores de uma v.a. N(0, 1) e considerar a soma de seus quadrados.
+Gere 1000 valores de uma distribuiçãoo qui-quadrado com três graus de liberdade e faça o histograma associado a esses dados.
+
+
+```{r}
+bin_v = rnorm(1000)^2 + rnorm(1000)^2 + rnorm(1000)^2
+hist(bin_v)
+```
