@@ -31,19 +31,32 @@ amostragem <- function(qntAmostras, reposicao, X, tamAmostras) {
     hist(meanVector, main = str)
   }
 }
+
+size = 100
 # QUESTÃO 2
-NormalDist = rnorm(1000,mean = 100, sd =5)
 
-for (i in 1:1000) {
-  v = NormalDist
-  meanVector = c(meanVector, v)
+varVector = c()
+meanVector = c() 
+for (i in 1:k) {
+  normalDist = rnorm(size, mean=100, sd=5)
+  m = mean(normalDist)
+  var = sum((normalDist - m)**2)/(100-1)
+  print(paste("Média da Distribuição normal de número", i,"-", m, sep=" "))
+  print(paste("Variância da Distribuição normal de número", i,"-", var, sep=" "))
+  varVector=c(varVector, m)
+  meanVector=c(meanVector, var)
 }
+hist(varVector, main = "Histograma das médias das Amostras de Distribuição Normal")
+hist(meanVector, main = "Histograma da variância das Amostras de Distribuição Normal")
   
-  str = paste('para amostra de tamanho',n, sep = " ")
-  print(str)
-  mediaDasMedias = mean(meanVector)
-  print(mediaDasMedias)
-  print(paste('variância  de X = ', var(X)/n))
-  print(var(meanVector))
-  hist(meanVector, main = str)
 
+# QUESTÃO 3
+alpha = 10
+expMeanDist = c()
+for (i in 1:k){
+  expDistribution = rexp(size, rate=alpha)
+  expMeanDist = c(expMeanDist, mean(expDistribution))
+  
+}
+T = 1/expMeanDist
+hist(T, main="Histograma do parâmetro T das médias das amostras Exp(10)")
