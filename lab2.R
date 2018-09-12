@@ -11,16 +11,17 @@ for(d in 2:10000) {
   vetor = c(vetor, X_i)
 }
 vetor = vetor/M
-hist(vetor)
+hist(vetor, main = "Histograma de valores aleatórios por congruência")
 
 # QUESTÂO 2
 
 v = -(log(1 - vetor)) / 2
-hist(v)
+hist(v, main = "Variáveis alatórias a partir da f.d.a")
 
 # QUESTÂO 3
 bin_dist = rbinom(1000, 10,  0.2)
-hist(rbinom(1000, 10,  0.2))
+hist(rbinom(1000, 10,  0.2) )
 
 # QUESTÃO 4
-rnorm(1000)^2 + rnorm(1000)^2 + rnorm(1000)^2
+chi_sq = rnorm(1000)^2 + rnorm(1000)^2 + rnorm(1000)^2
+hist(chi_sq, main = "Distribuição qui-quadrada por meio da Normal")
