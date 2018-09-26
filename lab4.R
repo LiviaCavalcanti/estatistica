@@ -37,3 +37,24 @@ for (i in 1:5){
 df_dist = data.frame(dummie_matrix)
 colnames(df_dist) = c("media_medias", "var_medias", "media_medianas", "var_medianas")
 df_dist
+
+#### QUESTÃO 2 ####
+
+dummie_matrix2 <- matrix(NA,ncol = 2, nrow = 1)
+qnt_amostra_unif=100
+T1_dist_unif=c()
+T2_dist_unif=c()
+coluna_indice=1
+for (j in 1:10000) {
+  pop_unif=runif(qnt_amostra_unif, min=0, max=500)
+  max_pop=max(pop_unif)
+  T1_dist_unif=c(T1_dist_unif, 2*(mean(pop_unif)))
+  T2_dist_unif=c(T2_dist_unif, (((qnt_amostra_unif+1)/qnt_amostra_unif)*max_pop))
+}
+
+hist(T1_dist_unif)
+hist(T2_dist_unif)
+mean(T1_dist_unif)-500
+mean(T2_dist_unif)-500
+var(T1_dist_unif)
+var(T2_dist_unif)
