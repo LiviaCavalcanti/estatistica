@@ -52,8 +52,8 @@ for (j in 1:10000) {
   T2_dist_unif=c(T2_dist_unif, (((qnt_amostra_unif+1)/qnt_amostra_unif)*max_pop))
 }
 
-hist(T1_dist_unif)
-hist(T2_dist_unif)
+hist(T1_dist_unif, main="Histograma do estimador T1")
+hist(T2_dist_unif, main="Histograma do estimador T2")
 mean(T1_dist_unif)-500
 mean(T2_dist_unif)-500
 var(T1_dist_unif)
