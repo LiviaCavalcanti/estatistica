@@ -6,37 +6,24 @@ funcao_p_chapeu <- function(amostra_comodos, n) {
   return(qnt_comodos_maior5/n)
 }
 
-erro_p_conservador <- function(z_gama, n) {
-  return(z_gama*(sqrt(1/(4*n))))
+erro_p_chapeu <- function(p_chapeu, z_gama, n) {
+  return(z_gama * (sqrt((p_chapeu*(1-p_chapeu)) / n)))
 }
 
-erro_p <- function(z_gama, p_chapeu, n) {
-  return(z_gama*(sqrt(((1-p_chapeu)*p_chapeu)/n)))
+erro_mediaDesconhecida<- function(t_alfa, desvio_padrao, n) {
+  return(t_alfa * (sd(amostra_domicilio) / sqrt(n)))
 }
 
-intervaloConfianca_p_conservador <- function(p_chapeu, z_gama, n) {
-  erro = erro_p_conservador(z_gama, n)
-  return(c(p_chapeu-erro, p_chapeu+erro))
+proporcao_parametroVerdadeiro = function(limiteSuperior, limiteInferior, parametro){
+  contador = 0
+  for(i in 1:10000){
+    if(limiteSuperior[i] >= parametro && limiteInferior[i] <= parametro){
+      contador = contador + 1
+    }
+  }
+  return(contador/10000)
 }
 
-intervaloConfianca_p <- function(p_chapeu, z_gama, n) {
-  erro = erro_p(z_gama, p_chapeu, n)
-  return(c(p_chapeu-erro, p_chapeu+erro))
-}
-
-# media
-
-desvio_padrao <- function(amostra_comodos, media_amostra, n) {
-  return(sqrt( sum((amostra_comodos-media_amostra)^2) / (n-1) ))
-}
-
-erro_media <- function(t_alfa, desvio_padrao, n) {
-  return(t_alfa*(desvio_padrao/sqrt(n)))
-}
-intervaloConficanca_mediaDesconhecida<- function(media_amostra, t_alfa, desvio_padrao, n) {
-  erro = erro_media(t_alfa, desvio_padrao, n)
-  return(c(media_amostra-erro, media_amostra+erro))
-}
 #### QUESTÃO 1 #####
 total_domicilios = nrow(casas_comodos)
 mais5 = sum(casas_comodos["num_comodos"] > 5)
@@ -47,34 +34,42 @@ p = mais5 / total_domicilios
 media = total_comodos/total_domicilios
 
 ## Letra B
-dummy_matrix = matrix(NA, nrow=10000, ncol=6)
+
 n = 20
 gama = 0.95
 z_gama = 1.96
 t_alfa = 2.262
+qnt_amostras = 10000
+limite_p1 = c()
+limite_p2 = c()
+limite_media1 = c()
+limite_media2 = c()
 
-for (i in 1:10000){
-  amostra_domicilio = sample(1:total_domicilios,n) 
-   p_chapeu = funcao_p_chapeu(casas_comodos[amostra_domicilio,], n)
-   ## Intervalo Proporção
-   p_intervalo = intervaloConfianca_p(p_chapeu, z_gama, n)
-   dummy_matrix[i,1] = p_intervalo[1]
-   dummy_matrix[i,2] = p_intervalo[2]
-   p_intervalo_conservador = intervaloConfianca_p_conservador(p_chapeu, z_gama, n)
-   dummy_matrix[i,3] = p_intervalo_conservador[1]
-   dummy_matrix[i,4] = p_intervalo_conservador[2]
-   ## Intervalo média
+for (i in 1:qnt_amostras){
+  amostra_domicilio = sample(casas_comodos$num_comodos,n, replace=FALSE)
+   p_chapeu = funcao_p_chapeu(amostra_domicilio, n)
    media_amostra = mean(amostra_domicilio)
-   media_intervalo = intervaloConficanca_mediaDesconhecida(media_amostra, t_alfa, desvio_padrao(amostra_domicilio, media_amostra, n), n)
-   dummy_matrix[i,5] = media_intervalo[1]
-   dummy_matrix[i,6] = media_intervalo[2]
+   
+   erro_p = erro_p_chapeu(p_chapeu = p_chapeu, z_gama=z_gama, n=n)
+   inferior_p = p_chapeu - erro_p
+   superior_p = p_chapeu + erro_p
+   
+
+   erro_media = erro_mediaDesconhecida(t_alfa,sd(amostra_domicilio),n)
+   inferior_media = media_amostra - erro_media
+   superior_media = media_amostra + erro_media
+   
+   limite_p1 = c(limite_p1, superior_p)
+   limite_p2 = c(limite_p2, inferior_p)
+   limite_media1 = c(limite_media1, superior_media)
+   limite_media2 = c(limite_media2, inferior_media)
+ 
    
 }
 
-intervalos_confianca = as.data.frame(dummy_matrix)
-colnames(intervalos_confianca) <- c('proporcao1', 'proporcao2', 'proporcao_conservador1', 'proporcao_conservador2', 'media1', 'media2')
 
 ## Letra C
-nrow(intervalos_confianca[intervalos_confianca[,1] < p && intervalos_confianca[,2]>p])
-nrow(intervalos_confianca[intervalos_confianca[,3] < p && intervalos_confianca[,4]>p])
-nrow(intervalos_confianca[intervalos_confianca[,5] < media && intervalos_confianca[,6]>media])
+proporcao_p = proporcao_parametroVerdadeiro(limite_p1, limite_p2, p)
+proporcao_p
+proporcao_media = proporcao_parametroVerdadeiro(limite_media1, limite_media2, media)
+proporcao_media
