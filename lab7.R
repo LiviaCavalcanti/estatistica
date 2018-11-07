@@ -38,16 +38,10 @@ sum=0
 for (i in c(1:3)) {
   for (j in c(1:3)) {
     sum  = sum + (((tabela_cruzada[i,j] - m[i,j])**2)/m[i,j])
-    print (((tabela_cruzada[i,j] - m[i,j])**2)/m[i,j])
-    print (((tabela_cruzada[i,j] - m[i,j])**2))
+    
   }  
 }
 
-p2 = pchisq(sum, df=4, )
-p2
-sum
-crosstable
+p2 = pchisq(sum, df=4 )
 
-tabela_cruzada
-m
-total
+# rejeita a independencia
