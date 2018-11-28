@@ -3,18 +3,18 @@ attach(dados)
 
 Y=telhados
 X=gastos
-plot(X,Y)
+plot(X,Y,xlab="gastos",ylab = "telhados")
 
 
 X=clientes
-plot(X,Y)
+plot(X,Y,xlab="clientes",ylab = "telhados")
 
 
 X=marcas
-plot(X,Y)
+plot(X,Y,xlab="marcas",ylab = "telhados")
 
 X=potencial
-plot(X,Y)
+plot(X,Y,xlab="potencial",ylab = "telhados")
 
 summary(potencial_lm)
 correlacoes<-cor(matrix(unlist(dados),nrow=26))[1,]
